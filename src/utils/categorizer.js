@@ -24,7 +24,7 @@ export const getCategoryFromDescription = (description, customKeywords = {}) => 
     }
   }
 
-  return 'Não categorizado'
+  return 'Outros'
 }
 
 export const getDefaultCategories = () => Object.keys(DEFAULT_KEYWORDS)

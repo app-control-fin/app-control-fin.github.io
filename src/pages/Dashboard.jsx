@@ -129,7 +129,7 @@ export const Dashboard = () => {
     filtered
       .filter(t => t.type === 'expense')
       .forEach(t => {
-        const cat = t.category || 'Não categorizado'
+        const cat = t.category || 'Outros'
         categories[cat] = (categories[cat] || 0) + Math.abs(t.amount)
       })
 

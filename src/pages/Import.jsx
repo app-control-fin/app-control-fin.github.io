@@ -135,6 +135,17 @@ export const Import = () => {
       } else if (typeof dateValue === 'number') {
         const excelDate = new Date((dateValue - 25569) * 86400 * 1000)
         date = excelDate.toISOString().split('T')[0]
+      } else if (typeof dateValue === 'string') {
+        const dateStr = dateValue.trim()
+        if (dateStr.includes('/')) {
+          const parts = dateStr.split('/')
+          if (parts.length === 3) {
+            const day = parts[0].padStart(2, '0')
+            const month = parts[1].padStart(2, '0')
+            const year = parts[2].length === 2 ? '20' + parts[2] : parts[2]
+            date = `${year}-${month}-${day}`
+          }
+        }
       }
 
       let amount = 0

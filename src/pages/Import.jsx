@@ -139,7 +139,7 @@ export const Import = () => {
 
       let amount = 0
       if (typeof amountValue === 'string') {
-        amount = parseFloat(amountValue.replace(/[R$\s.,]/g, '').replace(',', '.'))
+        amount = parseFloat(amountValue.replace('R$', '').replace(/\s/g, '').replace(',', '.'))
       } else {
         amount = parseFloat(amountValue) || 0
       }

@@ -62,7 +62,7 @@ const AppRoutes = () => {
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/controlfin">
       <AuthProvider>
         <AppRoutes />
       </AuthProvider>

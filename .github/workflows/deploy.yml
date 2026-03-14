@@ -31,10 +31,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Set environment variables
+      - name: Create .env file
         run: |
-          echo "VITE_SUPABASE_URL=${{ vars.VITE_SUPABASE_URL }}" >> $GITHUB_ENV
-          echo "VITE_SUPABASE_ANON_KEY=${{ vars.VITE_SUPABASE_ANON_KEY }}" >> $GITHUB_ENV
+          cat > .env << EOF
+          VITE_SUPABASE_URL=${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY=${{ vars.VITE_SUPABASE_ANON_KEY }}
+          EOF
 
       - name: Build
         run: npm run build

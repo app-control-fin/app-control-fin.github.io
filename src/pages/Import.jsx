@@ -231,8 +231,50 @@ export const Import = () => {
       }
     }).filter(t => t && t.date && t.description)
 
-    setTransactions(processed)
+    const filteredTransactions = filterPixDuplicates(processed, account?.type)
+    
+    setTransactions(filteredTransactions)
     setStep(3)
+  }
+
+  const filterPixDuplicates = (transactions, accountType) => {
+    if (accountType !== 'conta_corrente') {
+      return transactions
+    }
+
+    const transactionsByDate = {}
+    transactions.forEach((t, index) => {
+      if (!transactionsByDate[t.date]) {
+        transactionsByDate[t.date] = []
+      }
+      transactionsByDate[t.date].push({ ...t, originalIndex: index })
+    })
+
+    const toRemove = new Set()
+
+    Object.values(transactionsByDate).forEach(dayTransactions => {
+      const valueMap = {}
+      
+      dayTransactions.forEach(t => {
+        const absValue = Math.abs(t.amount)
+        if (!valueMap[absValue]) {
+          valueMap[absValue] = []
+        }
+        valueMap[absValue].push(t)
+      })
+
+      Object.values(valueMap).forEach(sameValueTransactions => {
+        const income = sameValueTransactions.find(t => t.amount > 0)
+        const expense = sameValueTransactions.find(t => t.amount < 0)
+
+        if (income && expense) {
+          toRemove.add(income.originalIndex)
+          toRemove.add(expense.originalIndex)
+        }
+      })
+    })
+
+    return transactions.filter((_, index) => !toRemove.has(index))
   }
 
   const handleImport = async () => {

@@ -188,7 +188,7 @@ export const Accounts = () => {
                       </div>
                     </div>
                     
-                    <a href={`/controlfin/import/${account.id}`} className="btn-import">
+                    <a href={`/import/${account.id}`} className="btn-import">
                       <Upload size={18} />
                       Importar Extrato
                     </a>

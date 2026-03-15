@@ -242,15 +242,24 @@ export const Import = () => {
       return transactions
     }
 
+    const toRemove = new Set()
+
+    transactions.forEach((t, index) => {
+      const desc = t.description?.toLowerCase() || ''
+      if (desc.includes('aplicação') || desc.includes('aplicacao') || desc.includes('fundo')) {
+        toRemove.add(index)
+      }
+    })
+
     const transactionsByDate = {}
     transactions.forEach((t, index) => {
+      if (toRemove.has(index)) return
+      
       if (!transactionsByDate[t.date]) {
         transactionsByDate[t.date] = []
       }
       transactionsByDate[t.date].push({ ...t, originalIndex: index })
     })
-
-    const toRemove = new Set()
 
     Object.values(transactionsByDate).forEach(dayTransactions => {
       const valueMap = {}
